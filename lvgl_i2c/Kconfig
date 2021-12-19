@@ -1,14 +1,28 @@
 menu "I2C Port 0"
+    choice LV_PREDEFINED_I2C
+        prompt "Select predefined i2c configuration"
+        default LV_PREDEFINED_I2C_NONE
+        help
+            Select predefined i2c configuration
+
+        config LV_PREDEFINED_I2C_NONE
+            bool "None"
+        config LV_PREDEFINED_I2C_MAKERFABS_35
+            bool "MakerFabs Touch Camera 3.5"
+    endchoice
 
 	config I2C_MANAGER_0_ENABLED
 		bool "Enable I2C port 0"
-		
+		default y if LV_PREDEFINED_I2C_MAKERFABS_35
+
 	if I2C_MANAGER_0_ENABLED
 		config I2C_MANAGER_0_SDA
 			int "SDA (GPIO pin)"
+			default 26 if LV_PREDEFINED_I2C_MAKERFABS_35
 			default 0
 		config I2C_MANAGER_0_SCL
 			int "SCL (GPIO pin)"
+			default 27 if LV_PREDEFINED_I2C_MAKERFABS_35
 			default 0
 		config I2C_MANAGER_0_FREQ_HZ
 			int "Frequency (Hz)"

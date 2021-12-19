@@ -204,6 +204,8 @@ static void ili9488_set_orientation(uint8_t orientation)
 
 #if defined (CONFIG_LV_PREDEFINED_DISPLAY_NONE)
     uint8_t data[] = {0x48, 0x88, 0x28, 0xE8};
+#elif defined (CONFIG_LV_PREDEFINED_DISPLAY_MAKERFABS_35)
+    uint8_t data[] = {0x48, 0x88, 0x28, 0xE8};
 #endif
 
     ESP_LOGI(TAG, "0x36 command value: 0x%02X", data[orientation]);

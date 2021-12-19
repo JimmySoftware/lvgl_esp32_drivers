@@ -43,7 +43,7 @@ menu "LVGL TFT Display controller"
             bool "Adafruit 3.5 Featherwing"
             select LV_TFT_DISPLAY_CONTROLLER_HX8357
             select LV_TFT_DISPLAY_PROTOCOL_SPI
-       config LV_PREDEFINED_DISPLAY_RPI_MPI3501
+        config LV_PREDEFINED_DISPLAY_RPI_MPI3501
             bool "RPi MPI3501"
             select LV_TFT_DISPLAY_CONTROLLER_ILI9486
             select LV_TFT_DISPLAY_PROTOCOL_SPI
@@ -76,6 +76,23 @@ menu "LVGL TFT Display controller"
             bool "Wireless Tag WT32-SC01"
             select LV_TFT_DISPLAY_CONTROLLER_ST7796S
             select LV_TFT_DISPLAY_PROTOCOL_SPI
+        config LV_PREDEFINED_DISPLAY_LILYGO_T4
+            bool "LILYGO T4 1.3"
+            select LV_TFT_DISPLAY_CONTROLLER_ILI9341
+            select LV_TFT_DISPLAY_PROTOCOL_SPI
+        config LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            bool "MakerFabs Touch Camera 3.2"
+            select LV_TFT_DISPLAY_CONTROLLER_ILI9341
+            select LV_TFT_DISPLAY_PROTOCOL_SPI
+        config LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            bool "MakerFabs Touch Camera 3.5"
+            select LV_TFT_DISPLAY_CONTROLLER_ILI9488
+            select LV_TFT_DISPLAY_PROTOCOL_SPI
+        config LV_PREDEFINED_DISPLAY_MAKERASIA_NN
+            bool "MakerAsia No Name"
+            select LV_TFT_DISPLAY_CONTROLLER_ILI9341
+            select LV_TFT_DISPLAY_PROTOCOL_SPI        
+
     endchoice
 
     # START of helper symbols.
@@ -201,6 +218,8 @@ menu "LVGL TFT Display controller"
         prompt "Display orientation"
         default LV_DISPLAY_ORIENTATION_PORTRAIT if !LV_TFT_DISPLAY_CONTROLLER_SSD1306
         default LV_DISPLAY_ORIENTATION_LANDSCAPE if LV_TFT_DISPLAY_CONTROLLER_SSD1306
+        default LV_DISPLAY_ORIENTATION_LANDSCAPE_INVERTED if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+        default LV_DISPLAY_ORIENTATION_LANDSCAPE_INVERTED if LV_PREDEFINED_DISPLAY_MAKERFABS_35
         config LV_DISPLAY_ORIENTATION_PORTRAIT
             bool "Portrait" if !LV_TFT_DISPLAY_CONTROLLER_SSD1306
         config LV_DISPLAY_ORIENTATION_PORTRAIT_INVERTED
@@ -602,7 +621,7 @@ menu "LVGL TFT Display controller"
 
     config LV_INVERT_COLORS
         bool "Invert colors in display" if LV_TFT_DISPLAY_CONTROLLER_ILI9341 || LV_TFT_DISPLAY_CONTROLLER_ST7735S || LV_TFT_DISPLAY_CONTROLLER_ILI9481 || LV_TFT_DISPLAY_CONTROLLER_ST7789 || LV_TFT_DISPLAY_CONTROLLER_SSD1306 || LV_TFT_DISPLAY_CONTROLLER_SH1107 || LV_TFT_DISPLAY_CONTROLLER_HX8357 || LV_TFT_DISPLAY_CONTROLLER_GC9A01 || LV_TFT_DISPLAY_CONTROLLER_ILI9163C
-        default y if LV_PREDEFINED_DISPLAY_M5STACK || LV_PREDEFINED_DISPLAY_M5STICKC
+        default y if LV_PREDEFINED_DISPLAY_M5STACK || LV_PREDEFINED_DISPLAY_M5STICKC || LV_PREDEFINED_DISPLAY_LILYGO_T4
         help
             If the colors look inverted on your display, try enabling this.
             If it didn't help try LVGL configuration -> Swap the 2 bytes of RGB565 color.
@@ -751,12 +770,17 @@ menu "LVGL TFT Display controller"
             default 23 if LV_PREDEFINED_DISPLAY_ATAG
             default 23 if LV_PREDEFINED_DISPLAY_M5STACK || LV_PREDEFINED_DISPLAY_M5STICK
             default 23 if LV_PREDEFINED_DISPLAY_M5CORE2
+            default 23 if LV_PREDEFINED_DISPLAY_LILYGO_T4
             default 15 if LV_PREDEFINED_DISPLAY_M5STICKC
             default 18 if LV_PREDEFINED_DISPLAY_ADA_FEATHERWING
             default 23 if LV_PREDEFINED_PINS_TKOALA
             default 19 if LV_PREDEFINED_DISPLAY_TTGO
             default 19 if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
             default 13 if LV_PREDEFINED_DISPLAY_WT32_SC01
+            default 23 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default 13 if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default 13 if LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            default 11 if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             default 13
             help
                 Configure the display MOSI pin here.
@@ -765,6 +789,10 @@ menu "LVGL TFT Display controller"
             bool "GPIO for MISO (Master In Slave Out)" if LV_TFT_DISPLAY_PROTOCOL_SPI
             default y if LV_PREDEFINED_PINS_TKOALA
             default y if LV_PREDEFINED_DISPLAY_M5CORE2
+            default y if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default y if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default y if LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            default y if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             help
                 Enable the MISO signal to control the display. You can disable
                 it when the display does not need MISO signal to be controlled.
@@ -774,6 +802,10 @@ menu "LVGL TFT Display controller"
             depends on LV_DISPLAY_USE_SPI_MISO
             default 19 if LV_PREDEFINED_PINS_TKOALA
             default 38 if LV_PREDEFINED_DISPLAY_M5CORE2
+            default 12 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default 12 if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default 12 if LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            default 13 if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             default 0
 
             help
@@ -816,6 +848,10 @@ menu "LVGL TFT Display controller"
             default 18 if LV_PREDEFINED_DISPLAY_TTGO
             default 21 if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
             default 14 if LV_PREDEFINED_DISPLAY_WT32_SC01
+            default 18 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default 14 if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default 14 if LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            default 12 if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             default 14
 
             help
@@ -842,6 +878,10 @@ menu "LVGL TFT Display controller"
             default 5 if LV_PREDEFINED_DISPLAY_TTGO
             default 12 if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
             default 15 if LV_PREDEFINED_DISPLAY_WT32_SC01
+            default 27 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default 15 if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default 15 if LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            default 10 if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             default 15
 
             help
@@ -869,6 +909,10 @@ menu "LVGL TFT Display controller"
             default 17 if LV_PREDEFINED_DISPLAY_ATAG
             default 16 if LV_PREDEFINED_DISPLAY_TTGO
             default 15 if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
+            default 26 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default 33 if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default 33 if LV_PREDEFINED_DISPLAY_MAKERFABS_35
+            default 9  if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             default 2
 
             help
@@ -877,6 +921,8 @@ menu "LVGL TFT Display controller"
         config LV_DISP_USE_RST
             bool "Use a GPIO for resetting the display" if LV_TFT_DISPLAY_PROTOCOL_SPI
             default n if LV_PREDEFINED_DISPLAY_M5CORE2
+            default n if LV_PREDEFINED_DISPLAY_MAKERFABS_32
+            default n if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
             default y
             help
                 Enable display reset control. Set this if the reset pin of the
@@ -901,6 +947,8 @@ menu "LVGL TFT Display controller"
             default 23 if LV_PREDEFINED_DISPLAY_TTGO
             default 33 if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
             default 22 if LV_PREDEFINED_DISPLAY_WT32_SC01
+            default 5 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+            default 26 if LV_PREDEFINED_DISPLAY_MAKERFABS_35
             default 4
 
             help
@@ -939,6 +987,7 @@ menu "LVGL TFT Display controller"
     endchoice
 
     choice
+        default LV_DISP_BACKLIGHT_OFF if LV_PREDEFINED_DISPLAY_MAKERFABS_35
         default LV_DISP_BACKLIGHT_SWITCH
         prompt "Backlight Control" if \
             (! ( LV_TFT_DISPLAY_CONTROLLER_SH1107 || LV_TFT_DISPLAY_CONTROLLER_SSD1306 ) )
@@ -973,6 +1022,7 @@ menu "LVGL TFT Display controller"
         default y if LV_PREDEFINED_DISPLAY_TTGO
         default y if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
         default y if LV_PREDEFINED_DISPLAY_WT32_SC01
+        default y if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
         help
             Some backlights are turned on with a high signal, others held low.
             If enabled, a value of 1 will be sent to the display to enable the backlight,
@@ -993,6 +1043,8 @@ menu "LVGL TFT Display controller"
         default 4 if LV_PREDEFINED_DISPLAY_TTGO
         default 2 if LV_PREDEFINED_DISPLAY_TTGO_CAMERA_PLUS
         default 23 if LV_PREDEFINED_DISPLAY_WT32_SC01
+        default 4 if LV_PREDEFINED_DISPLAY_LILYGO_T4
+        default 8 if LV_PREDEFINED_DISPLAY_MAKERASIA_NN
         default -1
 
         help

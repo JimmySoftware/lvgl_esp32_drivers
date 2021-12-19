@@ -200,6 +200,10 @@ static void ili9341_set_orientation(uint8_t orientation)
 	uint8_t data[] = {0x08, 0x88, 0x28, 0xE8};
 #elif defined (CONFIG_LV_PREDEFINED_DISPLAY_WROVER4)
     uint8_t data[] = {0x6C, 0xEC, 0xCC, 0x4C};
+#elif defined (CONFIG_LV_PREDEFINED_DISPLAY_MAKERASIA_NN)
+    uint8_t data[] = {0x08, 0x88, 0x28, 0xE8};		
+#elif defined (CONFIG_LV_PREDEFINED_DISPLAY_MAKERFABS_32)
+    uint8_t data[] = {0x08, 0x88, 0x28, 0xE8};		
 #elif defined (CONFIG_LV_PREDEFINED_DISPLAY_NONE)
     uint8_t data[] = {0x48, 0x88, 0x28, 0xE8};
 #endif
