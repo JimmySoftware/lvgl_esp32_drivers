@@ -12,19 +12,22 @@ menu "LVGL Touch controller"
             select LV_TOUCH_DRIVER_PROTOCOL_SPI
         config LV_PREDEFINED_TOUCH_MAKERFABS_35
             bool "MakerFabs Touch Camera 3.5"
-    endchoice
+            select LV_I2C_TOUCH
+        config LV_PREDEFINED_TOUCH_MAKERASIA_NN
+            bool "MakerAsia No Name"
+            select LV_I2C_TOUCH
+        endchoice
 
     config LV_TOUCH_CONTROLLER_FT6X06
         bool 
         default y if LV_PREDEFINED_TOUCH_MAKERFABS_35
+        default y if LV_PREDEFINED_TOUCH_MAKERASIA_NN
         default n
-        select LV_I2C_TOUCH
 
     config LV_TOUCH_CONTROLLER_STMPE610
         bool 
         default y if LV_PREDEFINED_TOUCH_MAKERFABS_32
         default n
-        select LV_TOUCH_DRIVER_PROTOCOL_SPI
 
     config LV_TOUCH_SPI_MISO
         int
@@ -89,11 +92,13 @@ menu "LVGL Touch controller"
 
     config LV_TOUCH_DRIVER_PROTOCOL_SPI
         bool
+        default n
         help
             Touch controller protocol SPI
 
     config LV_I2C_TOUCH
         bool
+        default n
         help
             Touch controller protocol I2C
 
